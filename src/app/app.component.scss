@@ -1,0 +1,79 @@
+//*{box-sizing: border-box}
+.game{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.place{
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 500px;
+  max-width: 500px;
+  //flex-basis: 500px;
+  flex-grow: 1;
+  border: 2px solid #666666;
+  margin: 20px;
+}
+.element{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  flex-basis: 25%;
+  width: 25%;
+  height: 25%;
+  background: #dedede;
+  border: 2px solid #666666;
+  cursor: pointer;
+  font-family: Roboto;
+  font-size: 32px;
+  box-shadow: inset 0 0 10px 4px #9a9ab8;
+}
+.emptyElement{
+  background: #aeaeae;
+  box-shadow: none ;
+}
+
+.button{
+  width: 80px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #9E9E9E;
+  background: rgb(221,221,221);
+  box-shadow: 0 3px 3px 0 #9E9E9E;
+  outline-color: transparent;
+  transition: all linear 0.3s;
+  &:active{
+    background: rgb(238, 238, 238);
+    transform: translateY(3px);
+    box-shadow: 0 0 3px 0 #9E9E9E;
+  }
+  &:hover{
+    background: rgb(210, 209, 209);
+  }
+}
+
+.info__victory{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 38px;
+  font-family: 'Helvetica';
+  color: green;
+  background: rgba(200, 200, 200, 0.7);
+}
+
+@media (max-width: 600px) {
+  .element{
+    font-size: 5.8vw;
+  }
+}
