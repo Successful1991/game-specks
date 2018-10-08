@@ -1,4 +1,5 @@
 import { ChangeDetectorRef ,Component, OnInit } from '@angular/core';
+import {el} from "@angular/platform-browser/testing/src/browser_util";
 
 @Component({
   selector: 'app-root',
@@ -21,11 +22,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {}
 
-
-  clickElement(index) {
-    this.searchEmptyElement(index);
-  }
-  searchEmptyElement(index) {
+  comparisonActiveEmptyItems(index) {
     let indexEmptyElement = this.field.indexOf('');
     const elementIndex = index;
     const emptyLine = Math.floor((indexEmptyElement + 4) / 4);
@@ -44,12 +41,14 @@ export class AppComponent implements OnInit {
     if(amountRepeat > 0){
       for(let i = amountRepeat; i > 0; i--){
         let emptyElement = this.field.indexOf('');
-        this.move(step,'+',emptyElement);
+        this.field[emptyElement] = this.move(step,'+',emptyElement);
+        this.checkResult();
       }
     }else if(amountRepeat < 0){
       for( let i = amountRepeat; i < 0;i++){
         let emptyElement = this.field.indexOf('');
-        this.move(step,'-',emptyElement);
+        this.field[emptyElement] = this.move(step,'-',emptyElement);
+        this.victory = this.checkResult();
       }
     }
 
@@ -67,59 +66,34 @@ export class AppComponent implements OnInit {
           this.field[el + step] = this.field[el];
           break;
       }
-    this.field[el] = temporary;
-    this.checkResult();
+    return temporary;
   }
 
   checkResult(){
     for(let i = 1; i < this.field.length; i++){
-      if(+this.field[i-1] !== i){return}
+      if(+this.field[i-1] !== i){return this.victory = false;}
     }
+
     this.victory = true;
-    setTimeout(()=>{this.victory=false},2000)
+    setTimeout(()=>{this.victory = false},2000);
   }
 
-  mixItems(){
-    for(let j = 0; j < 10; j++ ){
-
-      this.field.map( (item,index) => {
-        let i = index;
-          let random = (Math.floor(Math.random() * (5 - 1)) + 1);
-        switch (random){ //1 = up; 2 = right; 3 = down; 4 = left;
-          case 1:
-            if((i+1)-4 > 0) {
-              this.move(4,'-',i);
-            }else{
-              this.move(4,'+',i);
-            }
-            break;
-          case 2:
-            if((i+1)%4 !== 0 ){
-              this.move(1,'+',i);
-            }else{
-              this.move(1,'-',i);
-            }
-            break;
-          case 3:
-            if( ((i+1)+4)< 17 ) {
-              this.move(4,'+',i);
-            }else{
-              this.move(4,'-',i);
-            }
-            break;
-          case 4:
-            if( (i+1+4)%4 !== 1 ) {
-              this.move(1,'-',i);
-            }else{
-              this.move(1,'+',i);
-            }
-            break;
-
-        }
-
-      });
+  mixItemsAll(){
+    for(let j = 0; j < 80; j++ ){
+      let index = this.field.indexOf('');
+      this.mixItems(index);
     }
-
   }
+
+  mixItems(index){
+    let random = (Math.floor(Math.random() * (16 - 1)) + 1) - 1;
+    if( (random+4)%4 === (index+4)%4 || Math.floor((index+4)/4) === Math.floor((random+4)/4 )) {
+      this.comparisonActiveEmptyItems(random);
+    }else{
+      return this.mixItems(index);
+    }
+  }
+
+
 }
 

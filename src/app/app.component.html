@@ -2,11 +2,11 @@
 <div class="game">
 
   <div class="place" [style.height.px]="this.sizeWindow" [style.width.px]="this.sizeWindow" >
-    <div class="element" [class.emptyElement]="item === ''" *ngFor="let item of field;let i = index" [attr.data-index]="i" (click)="clickElement(i)">
+    <div class="element" [class.emptyElement]="item === ''" *ngFor="let item of field;let i = index" [attr.data-index]="i" (click)="comparisonActiveEmptyItems(i)">
       {{item}}
     </div>
   </div>
-  <button class="button" (click)="mixItems()" >mix</button>
+  <button class="button" (click)="mixItemsAll()" >mix</button>
   <div class="info__victory" *ngIf="this.victory">Победа!</div>
 
 </div>
